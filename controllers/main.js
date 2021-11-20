@@ -1,4 +1,4 @@
-const CustomAPIError = require('../errors/custom-error');
+const { BadRequest } = require('../errors');
 const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
@@ -8,7 +8,7 @@ const login = async (req, res) => {
     } = req.body;
     // To validate the login info, we can use: mongoose validation, Joi, or hardcode/throwing custom error by checking in the controller
     if (!username || !password) {
-        throw new CustomAPIError('Please provide email and password', 400)
+        throw new BadRequest('Please provide email and password')
     }
     //only for demo
     const id = new Date().getDate()
@@ -32,7 +32,7 @@ const dashboard = async (req, res) => {
     console.log(req.user);
     const luckyNumber = Math.floor(Math.random() * 100);
     res.status(200).json({
-        msg: `Hello, ${req.user.username}`,
+        msg: `Hello ${req.user.username},`,
         secret: `Here is your authorized data, your lucky number is ${luckyNumber}`
     });
 }
